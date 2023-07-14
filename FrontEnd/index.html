@@ -19,7 +19,7 @@
 
 <body>
 
-	<div class="edit_banner">
+	<div class="edit_banner hidden">
 		<i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
 		<p>Mode édition</p>
 		<p class="publish_btn">publier les changements</p>
@@ -41,7 +41,7 @@
 		<section id="introduction">
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
-				<div class="div_modifier">
+				<div class="div_modifier hidden">
 					<i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
 					<a href="#" class="modifier">modifier</a>
 				</div>
@@ -62,7 +62,7 @@
 		<section id="portfolio">
 			<div class="works_title">
 				<h2>Mes Projets</h2>
-				<div class="div_modifier">
+				<div class="div_modifier hidden">
 					<i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
 					<a href="#" class="modifier">modifier</a>
 				</div>
@@ -76,10 +76,8 @@
 				<a href="#" class="delete_gallery">Supprimer la galerie</a>
 			</div>
 			<div class="filters">
-				<button class="filter_btn">Tous</button>
-				<button class="filter_btn">Objets</button>
-				<button class="filter_btn">Appartements</button>
-				<button class="filter_btn">Hôtels & restaurants</button>
+				<button categoryid="0" id="filter_all" class="filter_btn">Tous</button>
+				<!-- Boutons "Catégories" ajoutés dynamiquement depuis l'API -->
 			</div>
 			<div class="gallery">
 				<!-- Travaux ajoutés dynamiquement depuis l'API  -->
