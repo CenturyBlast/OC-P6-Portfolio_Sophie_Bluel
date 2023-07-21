@@ -67,14 +67,57 @@
 					<a href="#" class="modifier">modifier</a>
 				</div>
 			</div>
-			<div class="modal_content">
-				<button class="modal_close">X</button>
-				<p>Galerie photo</p>
-				<div class="modal_works"></div>
-				<hr>
-				<button class="add_work">Ajouter une photo</button>
-				<a href="#" class="delete_gallery">Supprimer la galerie</a>
-			</div>
+			<!-- Modale en attente d'être affichée -->
+			<aside class="modal hidden" aria-hidden="true" role="dialog" aria-modal="false"
+				aria-labelledby="modal_title">
+				<div class="modal_gallery">
+					<div class="modal_close"><i class="fa-solid fa-xmark"></i></div>
+					<h2 id="modal_title">Galerie photo</h2>
+					<div class="modal_works">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+						labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+						laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+						voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+						non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+						labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+						laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+						voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+						non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+						labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+						laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+						voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+						non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+					<hr>
+					<button class="add_photo">Ajouter une photo</button>
+					<a href="#" class="delete_gallery">Supprimer la galerie</a>
+				</div>
+				<div class="modal_add_photo hidden">
+					<div class="modal_return"><i class="fa-solid fa-arrow-left"></i></div>
+					<div class="modal_close"><i class="fa-solid fa-xmark"></i></div>
+					<h2 id="modal_title">Ajout photo</h2>
+					<div class="add_box">
+						<div><img src="./assets/icons/add_logo.png" alt="photographie"></div>
+						<button class="inner_add_photo">+ Ajouter photo</button>
+						<p class="max_size">jpg, png : 4mo max</p>
+					</div>
+					<form action="#" method="post" id="add">
+						<label for="title">Titre</label>
+						<input type="text" name="title" id="title"><br>
+						<label for="category">Catégorie</label>
+						<select name="category" id="category">
+							<!-- A remanier en dynamique -->
+							<option value="objets">Objets</option>
+							<option value="appartements">Appartements</option>
+							<option value="hotels">Hotels & restaurants</option>
+						</select>
+					</form>
+					<hr>
+					<button class="validate">Valider</button>
+				</div>
+			</aside>
 			<div class="filters">
 				<button categoryid="0" id="filter_all" class="filter_btn">Tous</button>
 				<!-- Boutons "Catégories" ajoutés dynamiquement depuis l'API -->

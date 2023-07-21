@@ -47,9 +47,10 @@ function submitForm(event) {
                 window.location.href = "../../index.html";
             } else {
                 // Message d'erreur si mauvais identifiants
-                alert("Les information saisies sont incorrectes.");
+                alert("Erreur dans l’identifiant ou le mot de passe.");
             }
         })
 }
 
 console.log("Je suis sur la page de Login");
+
