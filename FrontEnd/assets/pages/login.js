@@ -1,7 +1,7 @@
-/* LOGIN */
+/***** LOGIN *****/
 
-// Déclaration de l'url pour la requête fetch
-const url = "http://localhost:5678/api/users/login";
+// Déclaration de l'URL pour la requête fetch
+const urlLogin = "http://localhost:5678/api/users/login";
 
 // Déclaration du formulaire
 const loginForm = document.querySelector("form");
@@ -27,7 +27,7 @@ function submitForm(event) {
     console.log(formJSON);
 
     // Requête fetch méthode POST
-    fetch(url, {
+    fetch(urlLogin, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

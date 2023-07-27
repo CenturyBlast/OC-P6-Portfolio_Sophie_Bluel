@@ -149,6 +149,11 @@ header {
 	margin: 50px 0
 }
 
+header img {
+	height: 22px;
+	width: 22px;
+}
+
 section {
 	margin: 50px 0
 }
@@ -310,7 +315,7 @@ li:hover {
 	overflow: auto;
 	border-radius: 10px;
 	width: 630px;
-	height: 670px;
+	height: 730px;
 }
 
 .modal_add_photo {
@@ -328,21 +333,78 @@ li:hover {
 
 .modal_works {
 	display: grid;
-	margin: 46px 104px;
-	/* grid-template-columns: 79px 79px 79px 79px;
-    grid-template-rows: 103px 103px 103px; */
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-row-gap: 12px;
+	grid-column-gap: 8px;
+	margin: 42px 104px;
+}
+
+.modal_works img {
+	width: 100%;
+}
+
+.modal_works .figure {
+	position: relative;
+}
+
+.trash {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 6px;
+	right: 5px;
+	color: white;
+	background-color: black;
+	border-radius: 2px;
+	width: 17px;
+	height: 17px;
+	cursor: pointer;
+}
+
+.move {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 6px;
+	right: 27px;
+	color: white;
+	background-color: black;
+	border-radius: 2px;
+	width: 17px;
+	height: 17px;
+}
+
+.modal_works .figure:hover .move {
+	display: flex;
+}
+
+.trash i,
+.move i {
+	font-size: 11px;
+}
+
+.modal_works figcaption {
+	font-size: 12px;
+	font-weight: 400;
+	margin-top: 2px;
 }
 
 .modal_close {
 	position: absolute;
 	top: 26px;
 	right: 30px;
+	font-size: 19px;
+	cursor: pointer;
 }
 
 .modal_return {
 	position: absolute;
 	top: 26px;
 	left: 30px;
+	font-size: 21px;
+	cursor: pointer;
 }
 
 .modal_content p {
@@ -380,6 +442,7 @@ hr {
 	border: none;
 	border-radius: 60px;
 	flex-wrap: nowrap;
+	cursor: pointer;
 }
 
 .inner_add_photo {
@@ -396,6 +459,7 @@ hr {
 	border: none;
 	margin-top: 15px;
 	margin-bottom: 7px;
+	cursor: pointer;
 }
 
 .max_size {
@@ -414,10 +478,9 @@ hr {
 	height: 169px;
 	border-radius: 3px;
 	margin-top: 36px;
-	margin-bottom: 30px;
 }
 
-.validate {
+#validate {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -433,6 +496,7 @@ hr {
 	border: none;
 	border-radius: 60px;
 	flex-wrap: nowrap;
+	cursor: pointer;
 }
 
 .delete_gallery {
@@ -480,23 +544,34 @@ hr {
 
 .gallery img {
 	width: 100%;
-
 }
 
 .gallery figcaption {
 	margin-top: 7px;
 }
 
-#login,
-#contact,
 #add {
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+}
+
+#add select {
+	width: 420px;
+	height: 50px;
+	border: none;
+	margin-bottom: 47px;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#login,
+#contact {
 	width: 50%;
 	margin: auto;
 }
 
 #login>*,
-#contact>*,
-#add {
+#contact>* {
 	text-align: center;
 
 }
@@ -507,8 +582,7 @@ hr {
 }
 
 #login form,
-#contact form,
-#add form {
+#contact form {
 	text-align: left;
 	margin-top: 30px;
 	display: flex;
@@ -531,8 +605,7 @@ hr {
 }
 
 #login textarea,
-#contact textarea,
-#add textarea {
+#contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
@@ -546,6 +619,7 @@ input[type="submit"] {
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
+	cursor: pointer;
 }
 
 .hidden {
