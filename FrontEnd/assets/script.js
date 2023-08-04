@@ -23,7 +23,7 @@ const gallery = document.querySelector(".gallery");
 // Fonction pour afficher le portfolio page d'accueil
 function recupPortfolio(data) {
 
-    console.log(data, "travaux");
+    // console.log(data, "travaux");
 
     for (let i = 0; i < data.length; i++) {
         // Création d'un article et apport du contenu dynamique
@@ -49,11 +49,11 @@ function recupPortfolio(data) {
     // Tableaux des travaux par catégorie
     // La syntaxe raccourcie utilisée ici "comporte" le "return"
     const objetOnly = data.filter(element => element.categoryId === 1);
-    console.log(objetOnly, "objets");
+    // console.log(objetOnly, "objets");
     const appartOnly = data.filter(element => element.categoryId === 2);
-    console.log(appartOnly, "apparts");
+    // console.log(appartOnly, "apparts");
     const hotelOnly = data.filter(element => element.categoryId === 3);
-    console.log(hotelOnly, "hotels");
+    // console.log(hotelOnly, "hotels");
 
 
 };
@@ -104,7 +104,7 @@ fetch("http://localhost:5678/api/categories")
     .then(reponse => reponse.json())
     .then(data => {
 
-        console.log(data, "categories");
+        // console.log(data, "categories");
 
         recupCat(data);
     })
@@ -119,6 +119,20 @@ const filters = document.querySelector(".filters");
 const allWorksBtn = document.getElementsByClassName('filter_btn')[0];
 allWorksBtn.addEventListener("click", () => {
     console.log("Afficher tous les travaux");
+
+
+    allWorksBtn.addEventListener("click", () => {
+            console.log("Afficher les objets");
+            let galleryDiv = document.querySelector(".gallery");
+            galleryDiv.innerHTML = '';
+
+            getTravaux().then(response => {
+                console.log(response,'test')
+   
+                recupPortfolio(response)
+            });
+            
+        });
 });
 
 // btn objets
@@ -126,11 +140,22 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const objetOnlyBtn = document.getElementsByClassName('filter_btn')[1];
         if (objetOnlyBtn) {
-            console.log('object btn works')
+            // console.log('object btn works')
         }
         objetOnlyBtn.addEventListener("click", () => {
             console.log("Afficher les objets");
+            let galleryDiv = document.querySelector(".gallery");
+            galleryDiv.innerHTML = '';
 
+            getTravaux().then(response => {
+                console.log(response,'test')
+                
+                let filteredWorks = response.filter(work => work.categoryId === 1 );
+                console.log(filteredWorks)
+                
+                recupPortfolio(filteredWorks)
+            });
+            
         });
     }, 1000);
 });
@@ -139,11 +164,22 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const appartOnlyBtn = document.getElementsByClassName('filter_btn')[2];
-        if (appartOnlyBtn) {
-            console.log('appart btn works')
-        }
+
+
         appartOnlyBtn.addEventListener("click", () => {
-            console.log("Afficher les appartements");
+            console.log("Afficher les objets");
+            let galleryDiv = document.querySelector(".gallery");
+            galleryDiv.innerHTML = '';
+
+            getTravaux().then(response => {
+                console.log(response,'test')
+                
+                let filteredWorks = response.filter(work => work.categoryId === 2 );
+                console.log(filteredWorks)
+                
+                recupPortfolio(filteredWorks)
+            });
+            
         });
     }, 1000);
 });
@@ -152,11 +188,22 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const hotelOnlyBtn = document.getElementsByClassName('filter_btn')[3];
-        if (hotelOnlyBtn) {
-            console.log('hotel btn works')
-        }
+    
+
         hotelOnlyBtn.addEventListener("click", () => {
-            console.log("Afficher les hotels et restaurants");
+            console.log("Afficher les objets");
+            let galleryDiv = document.querySelector(".gallery");
+            galleryDiv.innerHTML = '';
+
+            getTravaux().then(response => {
+                console.log(response,'test')
+                
+                let filteredWorks = response.filter(work => work.categoryId === 3 );
+                console.log(filteredWorks)
+                
+                recupPortfolio(filteredWorks)
+            });
+            
         });
     }, 1000);
 });
@@ -300,7 +347,7 @@ function recupAltPortfolio(data) {
         // Ajout d'un sous-titre
         const subtitle = document.createElement("figcaption");
         subtitle.innerText = "éditer";
-        // Association Contenu-Parents
+        // Association Enfant-Parent
         modalWorksDisplay.appendChild(projet);
         projet.appendChild(image);
         projet.appendChild(subtitle);
@@ -369,9 +416,11 @@ const urlAddWork = "http://localhost:5678/api/works";
 
 // Déclaration du formulaire
 const addWorkForm = document.getElementById("add");
-
+const sendBtn = document.getElementById('validate');
 // On écoute l'évenement lors de l'envoi du projet
-addWorkForm.addEventListener("submit", async (event) => {
+addWorkForm.addEventListener("submit",  (event) => {
+
+    console.log('submitted')
     // On empêche le refresh de la page par défaut
     event.preventDefault();
 
@@ -399,27 +448,21 @@ addWorkForm.addEventListener("submit", async (event) => {
     console.log(formData);
 
     // Requête fetch méthode POST
-    await fetch(urlAddWork, {
+     fetch(urlAddWork, {
         method: "POST",
         headers: { "authorization": `Bearer ${authUser}` },
         body: formData,
     })
         // Traitement de la réponse
-        .then(response => response.json())
-        .then(data => {
-            // Affichage des données retournées dans la console
-            console.log(data);
-
-            // Ajout du projet sur l'accueil et galerie modale
-
-
-
-            if (data.success) {
-                alert("Le projet a été ajouté avec succès.");
-            } else {
-                alert("Une erreur s'est produite lors de l'ajout du projet. Veuillez réessayer.");
+        .then(response => 
+            {console.log(response);
+                 if(response.status  === 201 ){ 
+                    console.log("this works ")
+                 } else { 
+                    console.log("problem ")
+                 }
             }
-        })
+        )
         .catch(error => {
             console.error("Erreur lors de la requête fetch :", error);
             alert("Une erreur s'est produite lors de la communication avec le serveur.");
