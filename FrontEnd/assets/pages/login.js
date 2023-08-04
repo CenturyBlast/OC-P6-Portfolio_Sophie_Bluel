@@ -40,9 +40,9 @@ function submitForm(event) {
             // Affichage des données retournées dans la console
             console.log(data);
             let token = data.token;
-            if (data.token) {
+            if (token) {
                 // Stockage du token en local 
-                localStorage.setItem("authToken", data.token)
+                localStorage.setItem("authToken", token)
                 // Renvoi à la page d'accueil
                 window.location.href = "../../index.html";
             } else {

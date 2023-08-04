@@ -90,7 +90,7 @@
 						<div class="add_box">
 							<div><img src="./assets/icons/add_logo.png" alt="photographie"></div>
 							<label class="inner_add_photo" for="file">+ Ajouter photo</label>
-							<input class="hidden" type="file" accept="image/*" id="file" onChange={addImage}>
+							<input id="file" class="hidden" type="file" accept="image/*">
 							<p class="max_size">jpg, png : 4mo max</p>
 						</div>
 						<label for="title">Titre</label>
@@ -105,6 +105,7 @@
 						</select>
 					</form>
 					<hr>
+					<!-- disabled enlevé temporairement -->
 					<input id="validate" type="submit" value="Valider">
 				</div>
 			</aside>

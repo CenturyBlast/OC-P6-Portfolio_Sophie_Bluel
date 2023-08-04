@@ -40,13 +40,14 @@ function recupPortfolio(data) {
         // Ajout d'un sous-titre
         const subtitle = document.createElement("figcaption");
         subtitle.innerText = data[i].title;
-        // Association Contenu-Parents
+        // Association Enfant-Parent
         gallery.appendChild(projet);
         projet.appendChild(image);
         projet.appendChild(subtitle);
     };
 
     // Tableaux des travaux par catégorie
+    // La syntaxe raccourcie utilisée ici "comporte" le "return"
     const objetOnly = data.filter(element => element.categoryId === 1);
     console.log(objetOnly, "objets");
     const appartOnly = data.filter(element => element.categoryId === 2);
@@ -67,47 +68,33 @@ const works = document.querySelectorAll(".gallery figure");
 for (let a = 0; a < btns.length; a++) {
     btns[a].addEventListener("click", filterImg);
 };
-// Activer le bouton au clic
-function setActiveBtn(e) {
-    // Enlever la class active de tous les boutons
-    btns.forEach(btn => {
-        btn.classList.remove("btn-clicked");
-    });
-    // Ajouter la class active au bouton cible
-    e.target.classList.add("btn-clicked");
-};
+
 // Filtrer les images
-function filterImg(e) {
-    // Lancer la fonction du bouton actif
-    setActiveBtn(e);
+function filterImg(a) {
+    // Récup le type de donnée bouton
+    const btnType = parseInt(a.target.getAttribute("categoryId"));
     // Boucle au travers des travaux
     works.forEach(work => {
         // Montrer tous les travaux
         work.classList.remove("hidden");
-        work.classList.add("show");
         // Récup les données depuis les attributs de données
         // Récup le type de donnée image
-        const workType = parseInt(figure.dataset.category);
-        // Récup le type de donnée bouton
-        const btnType = parseInt(e.target.categoryid);
+        const workType = parseInt(work.dataset.category);
+
         // Si le type image différent du type bouton
         if (workType !== btnType) {
             // Cacher le travail
-            work.classList.remove("show");
             work.classList.add("hidden");
         };
     });
 };
+
 // Ajouter un event au clic sur "Tous les travaux"
-btns[0].addEventListener("click", (e) => {
-    // Lancer la fonction du bouton actif
-    setActiveBtn(e);
-    console.log("Afficher tous les travaux");
+btns[0].addEventListener("click", () => {
     // Boucle au travers des travaux
     works.forEach(work => {
         // Afficher tous les travaux 
         work.classList.remove("hidden");
-        work.classList.add("show");
     });
 });
 
@@ -127,6 +114,53 @@ fetch("http://localhost:5678/api/categories")
 
 // Déclaration du conteneur des catégories
 const filters = document.querySelector(".filters");
+
+// btn tous
+const allWorksBtn = document.getElementsByClassName('filter_btn')[0];
+allWorksBtn.addEventListener("click", () => {
+    console.log("Afficher tous les travaux");
+});
+
+// btn objets
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        const objetOnlyBtn = document.getElementsByClassName('filter_btn')[1];
+        if (objetOnlyBtn) {
+            console.log('object btn works')
+        }
+        objetOnlyBtn.addEventListener("click", () => {
+            console.log("Afficher les objets");
+
+        });
+    }, 1000);
+});
+
+// btn appart
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        const appartOnlyBtn = document.getElementsByClassName('filter_btn')[2];
+        if (appartOnlyBtn) {
+            console.log('appart btn works')
+        }
+        appartOnlyBtn.addEventListener("click", () => {
+            console.log("Afficher les appartements");
+        });
+    }, 1000);
+});
+
+// btn hotel
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        const hotelOnlyBtn = document.getElementsByClassName('filter_btn')[3];
+        if (hotelOnlyBtn) {
+            console.log('hotel btn works')
+        }
+        hotelOnlyBtn.addEventListener("click", () => {
+            console.log("Afficher les hotels et restaurants");
+        });
+    }, 1000);
+});
+
 // Fonction pour afficher les boutons de catégories
 function recupCat(data) {
 
@@ -137,32 +171,15 @@ function recupCat(data) {
         filter.setAttribute("categoryId", data[i].id);
         // Application du style CSS
         filter.setAttribute("class", "filter_btn");
-        // Insertion d'une catégorie dans chaque bouton
+        // Insertion d'un nom de catégorie dans chaque bouton
         filter.innerText = data[i].name;
-        // Association Contenu-Parents
+        // Association Enfant-Parent
         filters.appendChild(filter);
+
+        // Ecouter l'événement sur chaque bouton
+        filter.addEventListener("click", filterImg);
     };
-
 };
-
-// const allWorksBtn = document.getElementsByClassName('filter_btn')[0];
-
-// const appartOnlyBtn = document.getElementsByClassName('filter_btn')[2];
-// const hotelOnlyBtn = document.getElementsByClassName('filter_btn')[3];
-
-
-// allWorksBtn.addEventListener("click", () => {
-
-//     console.log("Je veux afficher tous les travaux");
-// });
-
-// document.addEventListener("DOMContentLoaded", () => {
-//     const objetOnlyBtn = document.getElementsByClassName('filter_btn')[1];
-//     objetOnlyBtn.addEventListener("click", () => {
-
-//         console.log("Je veux afficher les objets");
-//     });
-// });
 
 
 
@@ -211,10 +228,11 @@ const modal = document.querySelector(".modal");
 // Modale galerie - Ouverture
 openModalBtn.forEach(function (lien) {
     lien.addEventListener("click", () => {
-        // event.preventDefault();
         modal.classList.remove("hidden");
         modal.removeAttribute("aria-hidden");
         modal.setAttribute("aria-modal", "true");
+        // Le scroll de l'arrière plan est désactivé
+        document.body.style.overflow = 'hidden';
         // Modale galerie - Appel des travaux
         getTravaux().then(response => {
             recupAltPortfolio(response)
@@ -226,6 +244,8 @@ openModalBtn.forEach(function (lien) {
 function clearModalContent() {
     // Supprimer le contenu HTML
     modalWorksDisplay.innerHTML = "";
+    // Le scroll de l'arrière plan est ré-activé
+    document.body.style.overflow = 'auto';
 };
 
 // Modale galerie - Fermeture - Croix
@@ -335,7 +355,7 @@ addPhotoBtn.addEventListener("click", () => {
     modalAddPhoto.classList.remove("hidden");
 });
 
-// Modale ajout de photo - Retour
+// Modale ajout de photo - Retour vers modale galerie
 returnModalBtn.addEventListener("click", () => {
     modalGallery.classList.remove("hidden");
     modalAddPhoto.classList.add("hidden");
@@ -349,40 +369,59 @@ const urlAddWork = "http://localhost:5678/api/works";
 
 // Déclaration du formulaire
 const addWorkForm = document.getElementById("add");
-// On écoute l'évenement lors de l'envoi des identifiants
-addWorkForm.addEventListener("submit", submitForm);
 
-function submitForm(event) {
+// On écoute l'évenement lors de l'envoi du projet
+addWorkForm.addEventListener("submit", async (event) => {
     // On empêche le refresh de la page par défaut
     event.preventDefault();
 
     // Déclaration des valeurs à lier à l'objet
-    const addImg = document.querySelector("#email").value;
-    const addTitle = document.querySelector(".title").value;
-    const addCategory = document.querySelector(".category").value;
+    const addImg = document.getElementById("file").files[0];
+    const addTitle = document.getElementById("title").value;
+    const addCategory = document.getElementById("category").value;
+    console.log(addImg, addTitle, addCategory);
 
-    // Déclaration de l'objet à envoyer
-    const formData = {
-        email: email,
-        password: password
+    // Validation des données côté client
+    if (!addTitle) {
+        alert("Veuillez entrer un titre pour le projet.");
+        return;
+    };
+    if (!addCategory) {
+        alert("Veuillez sélectionner une catégorie pour le projet.");
+        return;
     };
 
-    // Déclaration de la valeur de l'option body 
-    const formJSON = JSON.stringify(formData);
-    console.log(formJSON);
+    // Déclaration de l'objet à envoyer
+    const formData = new FormData();
+    formData.append("image", addImg);
+    formData.append("title", addTitle);
+    formData.append("category", addCategory);
+    console.log(formData);
 
     // Requête fetch méthode POST
-    fetch(urlLogin, {
+    await fetch(urlAddWork, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: formJSON,
+        headers: { "authorization": `Bearer ${authUser}` },
+        body: formData,
     })
         // Traitement de la réponse
         .then(response => response.json())
         .then(data => {
             // Affichage des données retournées dans la console
             console.log(data);
+
+            // Ajout du projet sur l'accueil et galerie modale
+
+
+
+            if (data.success) {
+                alert("Le projet a été ajouté avec succès.");
+            } else {
+                alert("Une erreur s'est produite lors de l'ajout du projet. Veuillez réessayer.");
+            }
+        })
+        .catch(error => {
+            console.error("Erreur lors de la requête fetch :", error);
+            alert("Une erreur s'est produite lors de la communication avec le serveur.");
         });
-};
+});

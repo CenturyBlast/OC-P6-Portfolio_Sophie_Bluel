@@ -146,7 +146,7 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
 
 header img {
@@ -155,7 +155,7 @@ header img {
 }
 
 section {
-	margin: 50px 0
+	margin: 90px 0;
 }
 
 h1 {
@@ -164,7 +164,7 @@ h1 {
 	font-family: 'Syne';
 	font-size: 22px;
 	font-weight: 800;
-	color: #B1663C
+	color: #B1663C;
 }
 
 h1>span {
@@ -177,7 +177,7 @@ h2 {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154;
 }
 
 nav ul {
@@ -244,7 +244,7 @@ li:hover {
 }
 
 #introduction figure {
-	flex: 1
+	flex: 1;
 }
 
 #introduction img {
@@ -254,7 +254,7 @@ li:hover {
 }
 
 #introduction article {
-	flex: 1
+	flex: 1;
 }
 
 #introduction h2 {
@@ -488,7 +488,7 @@ hr {
 	font-weight: 700;
 	font-size: 14px;
 	color: white;
-	background-color: #A7A7A7;
+	background-color: #1D6154;
 	margin: 2em auto;
 	width: 237px;
 	height: 36px;
@@ -497,6 +497,10 @@ hr {
 	border-radius: 60px;
 	flex-wrap: nowrap;
 	cursor: pointer;
+}
+
+#validate:disabled {
+	background-color: #A7A7A7;
 }
 
 .delete_gallery {
