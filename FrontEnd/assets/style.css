@@ -413,7 +413,8 @@ li:hover {
 	margin-bottom: 46px;
 }
 
-#modal_title {
+#modal_title1,
+#modal_title2 {
 	font-family: 'Work Sans';
 	color: black;
 	font-weight: 400;

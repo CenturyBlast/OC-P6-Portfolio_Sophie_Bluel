@@ -20,10 +20,8 @@ getTravaux().then(response => {
 
 // Déclaration du conteneur des projets
 const gallery = document.querySelector(".gallery");
-// Fonction pour afficher le portfolio page d'accueil
+// Fonction pour afficher le portfolio sur page d'accueil
 function recupPortfolio(data) {
-
-    // console.log(data, "travaux");
 
     for (let i = 0; i < data.length; i++) {
         // Création d'un article et apport du contenu dynamique
@@ -45,17 +43,6 @@ function recupPortfolio(data) {
         projet.appendChild(image);
         projet.appendChild(subtitle);
     };
-
-    // Tableaux des travaux par catégorie
-    // La syntaxe raccourcie utilisée ici "comporte" le "return"
-    const objetOnly = data.filter(element => element.categoryId === 1);
-    // console.log(objetOnly, "objets");
-    const appartOnly = data.filter(element => element.categoryId === 2);
-    // console.log(appartOnly, "apparts");
-    const hotelOnly = data.filter(element => element.categoryId === 3);
-    // console.log(hotelOnly, "hotels");
-
-
 };
 
 /***** FILTRES *****/
@@ -98,14 +85,10 @@ btns[0].addEventListener("click", () => {
     });
 });
 
-
 // Appel à l'API pour récupérer les catégories
 fetch("http://localhost:5678/api/categories")
     .then(reponse => reponse.json())
     .then(data => {
-
-        // console.log(data, "categories");
-
         recupCat(data);
     })
     .catch(error => {
@@ -115,95 +98,79 @@ fetch("http://localhost:5678/api/categories")
 // Déclaration du conteneur des catégories
 const filters = document.querySelector(".filters");
 
-// btn tous
+// Bouton "Tous"
 const allWorksBtn = document.getElementsByClassName('filter_btn')[0];
 allWorksBtn.addEventListener("click", () => {
     console.log("Afficher tous les travaux");
 
+    let galleryDiv = document.querySelector(".gallery");
+    galleryDiv.innerHTML = '';
 
-    allWorksBtn.addEventListener("click", () => {
-            console.log("Afficher les objets");
-            let galleryDiv = document.querySelector(".gallery");
-            galleryDiv.innerHTML = '';
-
-            getTravaux().then(response => {
-                console.log(response,'test')
-   
-                recupPortfolio(response)
-            });
-            
-        });
+    getTravaux().then(response => {
+        console.log(response)
+        recupPortfolio(response)
+    });
 });
 
-// btn objets
+// Bouton "Objets"
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const objetOnlyBtn = document.getElementsByClassName('filter_btn')[1];
-        if (objetOnlyBtn) {
-            // console.log('object btn works')
-        }
+
         objetOnlyBtn.addEventListener("click", () => {
             console.log("Afficher les objets");
+
             let galleryDiv = document.querySelector(".gallery");
             galleryDiv.innerHTML = '';
 
             getTravaux().then(response => {
-                console.log(response,'test')
-                
-                let filteredWorks = response.filter(work => work.categoryId === 1 );
+                let filteredWorks = response.filter(work => work.categoryId === 1);
                 console.log(filteredWorks)
-                
+
                 recupPortfolio(filteredWorks)
             });
-            
         });
     }, 1000);
 });
 
-// btn appart
+// Bouton "Appartements"
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const appartOnlyBtn = document.getElementsByClassName('filter_btn')[2];
 
-
         appartOnlyBtn.addEventListener("click", () => {
-            console.log("Afficher les objets");
+            console.log("Afficher les appartements");
+
             let galleryDiv = document.querySelector(".gallery");
             galleryDiv.innerHTML = '';
 
             getTravaux().then(response => {
-                console.log(response,'test')
-                
-                let filteredWorks = response.filter(work => work.categoryId === 2 );
+                let filteredWorks = response.filter(work => work.categoryId === 2);
                 console.log(filteredWorks)
-                
+
                 recupPortfolio(filteredWorks)
             });
-            
         });
     }, 1000);
 });
 
-// btn hotel
+// Bouton "Hotels & Restaurants"
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const hotelOnlyBtn = document.getElementsByClassName('filter_btn')[3];
-    
 
         hotelOnlyBtn.addEventListener("click", () => {
-            console.log("Afficher les objets");
+            console.log("Afficher les hotels et restaurants");
+
             let galleryDiv = document.querySelector(".gallery");
             galleryDiv.innerHTML = '';
 
             getTravaux().then(response => {
-                console.log(response,'test')
-                
-                let filteredWorks = response.filter(work => work.categoryId === 3 );
+                let filteredWorks = response.filter(work => work.categoryId === 3);
                 console.log(filteredWorks)
-                
+
                 recupPortfolio(filteredWorks)
             });
-            
         });
     }, 1000);
 });
@@ -376,15 +343,11 @@ function recupAltPortfolio(data) {
                             recupAltPortfolio(response);
                             // Afficher le portfolio mis à jour sur page accueil
                             recupPortfolio(response);
-                            // Message de confirmation
-                            alert("Suppression du projet effectuée.");
+                            console.log("Projet supprimé");
                         } else {
                             console.error("Erreur lors de la suppression du projet");
                         }
                     })
-                    .catch(function (error) {
-                        console.error("Erreur lors de la suppression du projet", error);
-                    });
             };
         });
     };
@@ -416,11 +379,11 @@ const urlAddWork = "http://localhost:5678/api/works";
 
 // Déclaration du formulaire
 const addWorkForm = document.getElementById("add");
-const sendBtn = document.getElementById('validate');
-// On écoute l'évenement lors de l'envoi du projet
-addWorkForm.addEventListener("submit",  (event) => {
+const sendBtn = document.getElementById("validate");
 
-    console.log('submitted')
+// On écoute l'évenement lors de l'envoi du projet
+addWorkForm.addEventListener("submit", (event) => {
+
     // On empêche le refresh de la page par défaut
     event.preventDefault();
 
@@ -430,16 +393,6 @@ addWorkForm.addEventListener("submit",  (event) => {
     const addCategory = document.getElementById("category").value;
     console.log(addImg, addTitle, addCategory);
 
-    // Validation des données côté client
-    if (!addTitle) {
-        alert("Veuillez entrer un titre pour le projet.");
-        return;
-    };
-    if (!addCategory) {
-        alert("Veuillez sélectionner une catégorie pour le projet.");
-        return;
-    };
-
     // Déclaration de l'objet à envoyer
     const formData = new FormData();
     formData.append("image", addImg);
@@ -448,20 +401,22 @@ addWorkForm.addEventListener("submit",  (event) => {
     console.log(formData);
 
     // Requête fetch méthode POST
-     fetch(urlAddWork, {
+    fetch(urlAddWork, {
         method: "POST",
         headers: { "authorization": `Bearer ${authUser}` },
         body: formData,
     })
         // Traitement de la réponse
-        .then(response => 
-            {console.log(response);
-                 if(response.status  === 201 ){ 
-                    console.log("this works ")
-                 } else { 
-                    console.log("problem ")
-                 }
+        .then(response => {
+            console.log(response);
+            if (response.status === 201) {
+                console.log("Projet ajouté")
+            } else {
+                console.log("Erreur lors de l'ajout de projet");
+                // Message d'erreur si formulaire ma rempli
+                alert("Le formulaire n’est pas correctement rempli.");
             }
+        }
         )
         .catch(error => {
             console.error("Erreur lors de la requête fetch :", error);
