@@ -209,6 +209,7 @@ if (authUser) {
     loginBtn.innerText = "logout";
     // Au clic sur logout, je me déconnecte
     loginBtn.addEventListener('click', function (logout) {
+        // On empêche le refresh de la page par défaut
         logout.preventDefault();
         // Effacer le contenu du localStorage
         localStorage.clear();
@@ -339,6 +340,10 @@ function recupAltPortfolio(data) {
                 })
                     .then(function (response) {
                         if (response.ok) {
+
+                            // // On empêche le refresh de la page par défaut
+                            // response.preventDefault();
+
                             // Afficher le portfolio mis à jour dans la modale
                             recupAltPortfolio(response);
                             // Afficher le portfolio mis à jour sur page accueil
@@ -373,6 +378,22 @@ returnModalBtn.addEventListener("click", () => {
 
 
 /***** Modale ajout de photo - AJOUT de projet *****/
+
+// Fonction pour montrer un preview de l'image
+function showPreview(event) {
+    if (event.target.files.length > 0) {
+        const src = URL.createObjectURL(event.target.files[0]);
+        const preview = document.getElementById("previewImg");
+        preview.src = src;
+        const addBoxLabel = document.getElementById("photolab");
+        addBoxLabel.style.display = "none";
+        const addBoxSub = document.getElementById("photosub");
+        addBoxSub.style.display = "none";
+    }
+}
+
+const addImgBtn = document.getElementById("file");
+addImgBtn.addEventListener("change", showPreview);
 
 // Déclaration de l'URL pour la requête fetch
 const urlAddWork = "http://localhost:5678/api/works";

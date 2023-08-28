@@ -481,6 +481,14 @@ hr {
 	margin-top: 36px;
 }
 
+#previewImg {
+	max-height: 169px;
+}
+
+.preview_div {
+	display: flex;
+}
+
 #validate {
 	display: flex;
 	align-items: center;
