@@ -101,6 +101,7 @@ const filters = document.querySelector(".filters");
 // Bouton "Tous"
 const allWorksBtn = document.getElementsByClassName('filter_btn')[0];
 allWorksBtn.addEventListener("click", () => {
+
     console.log("Afficher tous les travaux");
 
     let galleryDiv = document.querySelector(".gallery");
@@ -114,19 +115,23 @@ allWorksBtn.addEventListener("click", () => {
 
 // Bouton "Objets"
 document.addEventListener("DOMContentLoaded", () => {
+    // Attendre 1 seconde après le chargement de la page
     setTimeout(() => {
         const objetOnlyBtn = document.getElementsByClassName('filter_btn')[1];
-
+        // Réagir lorsque le bouton "Objets" est cliqué
         objetOnlyBtn.addEventListener("click", () => {
+
             console.log("Afficher les objets");
 
+            // Vider la galerie d'images
             let galleryDiv = document.querySelector(".gallery");
             galleryDiv.innerHTML = '';
 
+            // Une fois les images récupérées dans la DB, les filtrer pour garder les categoryID valant "1"
             getTravaux().then(response => {
                 let filteredWorks = response.filter(work => work.categoryId === 1);
                 console.log(filteredWorks)
-
+                // Afficher les images filtrées
                 recupPortfolio(filteredWorks)
             });
         });
@@ -194,7 +199,6 @@ function recupCat(data) {
         filter.addEventListener("click", filterImg);
     };
 };
-
 
 
 /***** MODE EDITION/ADMINISTRATEUR *****/
@@ -338,17 +342,27 @@ function recupAltPortfolio(data) {
                         "Authorization": `Bearer ${authUser}`
                     }
                 })
+                    // Une fois la réponse revenue
                     .then(function (response) {
+
+                        // Si positive
                         if (response.ok) {
 
-                            // // On empêche le refresh de la page par défaut
-                            // response.preventDefault();
+                            // Appel et attente, via l'API, des travaux mis à jour
+                            getTravaux().then(response => {
+                                // Suppression du contenu de la galerie accueil
+                                let galleryDiv = document.querySelector(".gallery");
+                                galleryDiv.innerHTML = '';
+                                // Création dynamique des travaux accueil
+                                recupPortfolio(response);
+                                // Suppression du contenu galerie modale
+                                clearModalContent();
+                                // Création dynamique des travaux modale
+                                recupAltPortfolio(response);
+                            });
 
-                            // Afficher le portfolio mis à jour dans la modale
-                            recupAltPortfolio(response);
-                            // Afficher le portfolio mis à jour sur page accueil
-                            recupPortfolio(response);
                             console.log("Projet supprimé");
+
                         } else {
                             console.error("Erreur lors de la suppression du projet");
                         }
@@ -377,7 +391,7 @@ returnModalBtn.addEventListener("click", () => {
 });
 
 
-/***** Modale ajout de photo - AJOUT de projet *****/
+/***** Modale ajout de photo - AJOUT de projet en DB et DOM *****/
 
 // Fonction pour montrer un preview de l'image
 function showPreview(event) {
@@ -389,13 +403,13 @@ function showPreview(event) {
         addBoxLabel.style.display = "none";
         const addBoxSub = document.getElementById("photosub");
         addBoxSub.style.display = "none";
-    }
-}
+    };
+};
 
-const addImgBtn = document.getElementById("file");
-addImgBtn.addEventListener("change", showPreview);
+const fileInput = document.getElementById("file");
+fileInput.addEventListener("change", showPreview);
 
-// Déclaration de l'URL pour la requête fetch
+// Déclaration de l'URL pour la requête fetch post
 const urlAddWork = "http://localhost:5678/api/works";
 
 // Déclaration du formulaire
@@ -407,6 +421,11 @@ addWorkForm.addEventListener("submit", (event) => {
 
     // On empêche le refresh de la page par défaut
     event.preventDefault();
+
+    // Affichage erreur si input image vide
+    if (fileInput.value === "") {
+        alert("Veuillez fournir une image.");
+    };
 
     // Déclaration des valeurs à lier à l'objet
     const addImg = document.getElementById("file").files[0];
@@ -429,9 +448,28 @@ addWorkForm.addEventListener("submit", (event) => {
     })
         // Traitement de la réponse
         .then(response => {
+
             console.log(response);
+
+            // Si positive
             if (response.status === 201) {
+
+                // Appel et attente, via l'API, des travaux mis à jour
+                getTravaux().then(response => {
+                    // Suppression du contenu de la galerie accueil
+                    let galleryDiv = document.querySelector(".gallery");
+                    galleryDiv.innerHTML = '';
+                    // Création dynamique des travaux accueil
+                    recupPortfolio(response);
+                    // Suppression du contenu galerie modale
+                    clearModalContent();
+                    // Création dynamique des travaux modale
+                    recupAltPortfolio(response);
+                });
+
                 console.log("Projet ajouté")
+                // Alerte de succès sur l'écran
+                alert("Projet ajouté avec succès !");
             } else {
                 console.log("Erreur lors de l'ajout de projet");
                 // Message d'erreur si formulaire ma rempli
